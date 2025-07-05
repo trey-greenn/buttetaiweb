@@ -20,29 +20,31 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    console.log('Starting timestamp insertion...');
+    
     // Insert current timestamp into the Supabase table
     const { data, error } = await supabaseAdmin
       .from('timestamps')
-      .insert([{ timestamp: new Date().toISOString() }])
-      .select();
+      .insert([{ timestamp: new Date().toISOString() }]);
 
     if (error) {
-      console.error('Error inserting timestamp:', error);
+      console.error('Detailed Supabase error:', JSON.stringify(error));
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, details: error },
         { status: 500 }
       );
     }
 
+    console.log('Timestamp inserted successfully');
+    
     return NextResponse.json({
       success: true,
-      message: 'Timestamp updated successfully',
-      data
+      message: 'Timestamp updated successfully'
     });
   } catch (error) {
     console.error('Cron job error:', error);
     return NextResponse.json(
-      { success: false, message: 'Internal server error' },
+      { success: false, message: 'Internal server error', error: String(error) },
       { status: 500 }
     );
   }
