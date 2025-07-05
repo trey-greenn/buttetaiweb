@@ -8,6 +8,10 @@ export const maxDuration = 300; // 5 minutes
 // Create a simple handler for the route
 export async function GET(request: NextRequest) {
   try {
+    // Log the Supabase connection details (without exposing the key)
+    console.log('Supabase URL:', process.env.NEXT_SUPABASE_URL ? 'Defined' : 'Undefined');
+    console.log('Supabase Key:', process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY ? 'Defined' : 'Undefined');
+    
     // Verify request is from Vercel Cron
     const authHeader = request.headers.get('authorization');
     if (
@@ -22,10 +26,22 @@ export async function GET(request: NextRequest) {
 
     console.log('Starting timestamp insertion...');
     
-    // Insert current timestamp into the Supabase table
+    // Test connection with a simple query first
+    const { data: testData, error: testError } = await supabaseAdmin
+      .from('timestamps')
+      .select('*')
+      .limit(1);
+      
+    console.log('Test query result:', testData ? 'Data received' : 'No data');
+    console.log('Test query error:', testError ? JSON.stringify(testError) : 'No error');
+    
+    // Now try the insertion
+    const timestamp = new Date().toISOString();
+    console.log('Inserting timestamp:', timestamp);
+    
     const { data, error } = await supabaseAdmin
       .from('timestamps')
-      .insert([{ timestamp: new Date().toISOString() }]);
+      .insert([{ timestamp }]);
 
     if (error) {
       console.error('Detailed Supabase error:', JSON.stringify(error));
@@ -35,11 +51,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Timestamp inserted successfully');
+    console.log('Insertion response:', data ? JSON.stringify(data) : 'No data returned');
     
     return NextResponse.json({
       success: true,
-      message: 'Timestamp updated successfully'
+      message: 'Timestamp updated successfully',
+      timestamp
     });
   } catch (error) {
     console.error('Cron job error:', error);
