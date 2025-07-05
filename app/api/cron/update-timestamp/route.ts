@@ -26,22 +26,10 @@ export async function GET(request: NextRequest) {
 
     console.log('Starting timestamp insertion...');
     
-    // Test connection with a simple query first
-    const { data: testData, error: testError } = await supabaseAdmin
-      .from('timestamps')
-      .select('*')
-      .limit(1);
-      
-    console.log('Test query result:', testData ? 'Data received' : 'No data');
-    console.log('Test query error:', testError ? JSON.stringify(testError) : 'No error');
-    
-    // Now try the insertion
-    const timestamp = new Date().toISOString();
-    console.log('Inserting timestamp:', timestamp);
-    
+    // Insert current timestamp into the correct table
     const { data, error } = await supabaseAdmin
-      .from('timestamps')
-      .insert([{ timestamp }]);
+      .from('cron_heartbeat')
+      .insert([{ timestamp: new Date().toISOString() }]);
 
     if (error) {
       console.error('Detailed Supabase error:', JSON.stringify(error));
@@ -51,12 +39,11 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('Insertion response:', data ? JSON.stringify(data) : 'No data returned');
+    console.log('Timestamp inserted successfully');
     
     return NextResponse.json({
       success: true,
-      message: 'Timestamp updated successfully',
-      timestamp
+      message: 'Timestamp updated successfully'
     });
   } catch (error) {
     console.error('Cron job error:', error);
