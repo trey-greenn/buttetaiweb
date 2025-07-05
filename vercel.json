@@ -1,0 +1,9 @@
+
+{
+    "crons": [
+      {
+        "path": "/api/cron/update-timestamp",
+        "schedule": "0 * * * *"
+      }
+    ]
+  }
