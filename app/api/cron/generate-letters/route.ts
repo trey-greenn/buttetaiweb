@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY;
+const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
 const serpApiKey = process.env.NEXT_PUBLIC_SERPAPI_KEY;
 const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 const cronSecret = process.env.CRON_SECRET;
