@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/app/utils/supabase';
+import { createServerClient } from '@/app/utils/supabase';
 
 // Define response headers for this API route
 export const dynamic = 'force-dynamic';
@@ -9,8 +9,8 @@ export const maxDuration = 300; // 5 minutes
 export async function GET(request: NextRequest) {
   try {
     // Log the Supabase connection details (without exposing the key)
-    console.log('Supabase URL:', process.env.NEXT_SUPABASE_URL ? 'Defined' : 'Undefined');
-    console.log('Supabase Key:', process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY ? 'Defined' : 'Undefined');
+    console.log('Supabase URL:', process.env.SUPABASE_URL ? 'Defined' : 'Undefined');
+    console.log('Supabase Key:', process.env.SUPABASE_SERVICE_ROLE_KEY ? 'Defined' : 'Undefined');
     
     // Verify request is from Vercel Cron
     const authHeader = request.headers.get('authorization');
@@ -25,6 +25,9 @@ export async function GET(request: NextRequest) {
     }
 
     console.log('Starting timestamp insertion...');
+    
+    // Create the client inside the function
+    const supabaseAdmin = createServerClient();
     
     // Insert current timestamp into the correct table
     const { data, error } = await supabaseAdmin

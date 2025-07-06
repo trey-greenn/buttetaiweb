@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
 import OpenAI from 'openai';
+import { createServerClient } from '@/app/utils/supabase';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
-const serpApiKey = process.env.NEXT_PUBLIC_SERPAPI_KEY;
-const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+// Don't initialize clients at the top level
+const serpApiKey = process.env.SERPER_API_KEY;
+const openaiApiKey = process.env.OPENAI_API_KEY;
 const cronSecret = process.env.CRON_SECRET;
-
-const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
-const openai = new OpenAI({ apiKey: openaiApiKey });
 
 const SERPAPI_URL = 'https://serpapi.com/search.json';
 
@@ -21,6 +17,15 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    // Initialize Supabase client inside the handler function
+    const supabase = createServerClient();
+    
+    // Initialize OpenAI client
+    if (!openaiApiKey) {
+      throw new Error('Missing OpenAI API key');
+    }
+    const openai = new OpenAI({ apiKey: openaiApiKey });
+
     // Get all active letter settings
     const { data: letterSettings, error: settingsError } = await supabase
       .from('letter_settings')

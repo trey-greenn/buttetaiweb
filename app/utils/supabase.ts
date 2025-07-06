@@ -3,17 +3,18 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_SUPABASE_URL;
-const supabaseServiceKey = process.env.NEXT_SUPABASE_SERVICE_ROLE_KEY;
-
-// Create a single supabase client for server-side usage
-export const supabaseAdmin = createClient(
-    supabaseUrl || '', 
-    supabaseServiceKey || '', 
-    {
-      auth: {
-        persistSession: false,
-      }
+// Export a function instead of an initialized client
+export function createServerClient() {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  
+  if (!supabaseUrl || !supabaseServiceKey) {
+    throw new Error('Missing Supabase server credentials');
+  }
+  
+  return createClient(supabaseUrl, supabaseServiceKey, {
+    auth: {
+      persistSession: false,
     }
-  );
+  });
+}

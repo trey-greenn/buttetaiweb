@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { z } from 'zod';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
-const serpApiKey = process.env.NEXT_PUBLIC_SERPAPI_KEY;
-const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const serpApiKey = process.env.SERPAPI_KEY;
+const openaiApiKey = process.env.OPENAI_API_KEY;
 
 const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 const openai = new OpenAI({ apiKey: openaiApiKey });
