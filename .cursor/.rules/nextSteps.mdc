@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+For our [letterAutomation.mdc](mdc:.cursor/.rules/letterAutomation.mdc) Letter Page. We need to create the equivalent table in our supabase database so when we save the Letter settings it is pushed and saved to our Letter Table we are about to make. Once that is done. We need to be able to properly load the page with the correct Letter Settings. We need not allow the editing of the Letter Sections until the user clicks Edit. Edit will only become available until the user saves the settings at least once.
+
+Once we get the settings. Based on the Subjects and Niche interest we are going to perform Search and Summarize. Search for articles based on the subjects and nich interest. Then using the prompt the user gave us. Write/Summarize the information into a letter for the user. Look [searchSum.mdc](mdc:.cursor/.rules/searchSum.mdc) as an example implementation. 
+- Therefore we need another table that stores the link the articles and the writing/summary of each topic in supabase.
+        create table article_summaries (
+         id uuid primary key default gen_random_uuid(),
+         user_id uuid not null,
+         section_id uuid not null,
+         title text,
+         url text,
+         raw_snippet text,
+         summary_text text,
+         created_at timestamptz default now()
+        );
+
+- Then we are going to retrieve the summary texts. Format it like a letter and post it to the users Letter Post page. Think of this part and Letter Post Page as working as a blog system. We are going to show the title. Date. Short summary of each available Letter Post. Once they click on it, the full Letter will expand.
+
+Lastly, since we only have the option to run one cron job a day, we will need to make all of these actions into one executable cron job page.

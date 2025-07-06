@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+BuffetAI: Personal AI-Powered Newsletter Platform
+BuffetAI is a content mastery platform designed to help individuals control their information diet — by choosing exactly what topics they want to read, learn, and grow in.
+
+📬 Newsletter Tool: Automate Your Learning
+The Newsletter Tool is BuffetAI’s flagship product that lets users:
+
+Create personalized newsletter sections by selecting topics (e.g., “AI in Healthcare” or “Emerging Markets”), writing custom instructions, and choosing a frequency (daily, weekly, biweekly).
+
+Automatically pull the latest articles on their topics using a News API.
+
+Use OpenAI-powered summarization to generate concise, digestible insights from the raw content.
+
+Receive a beautifully formatted AI-generated newsletter via email, without needing to write or compile anything themselves.
+
+Choose to Send Now (instant preview) or Schedule Later (automated future delivery).
+
+Let the system run in the background — no ongoing work required.
+
+🎯 Key Value Proposition
+“BuffetAI helps you read with intention, not impulse.”
+
+Instead of being overwhelmed by endless newsfeeds or unfiltered content, BuffetAI lets users decide what they learn — and delivers clean, insightful, AI-curated newsletters straight to their inbox, on their schedule.
+
+It’s like having a private research assistant + newsletter editor, always working in the background.
+

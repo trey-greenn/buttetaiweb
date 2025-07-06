@@ -1,0 +1,38 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+We are creating an automated system that updates the users profile with daily letters written by AI based off of user requirements. This is only going to be the UI part, meaning just the design and flow of things. We are not going to connect this yet to the database.
+
+Each field, found below, is the parent aspect of the overall user requirements, which are: Letter Title, Subjects, Niche Interests, Prompt, Frequency, & Other.
+
+Design of each Field parent: Rounded div. With Shadow. the field name/title are h2. Everything will have padding aligned to the left. 
+        - Letter Name: A text input field.
+        - Subjects: A dropdown  list, rouned div, arrow pointing down. Predefined list: Technology, Politics, Business, War, Art, Health, Medicine, Science... Please finish the rest of the subject list. A plus/addition sign. to add another subject. Make sure each option has an x button to delete the option.
+        - Nich Interest: will be another box with sub titles. Interest: text input field. Below this. Subject: Dropdown list of the selected Subjects found above. So the user can expand on the nich of the subject selected. Make sure each option has an x button to delete the option.
+        - Propmt as the title of the box. Large text input area with rounded corners,
+        - Frequency as the title. A rounded div box with Daily as the text. Cannot be changed yet, fixed.
+        - Other as the title. With a medium large text input area with rounded corners.
+
+
+Below are the placeholder text we want to set so the user can get an idea of what each input field is for.
+
+
+*Fields*
+
+Letter Name: John Does Techno-Business Daily Letter
+
+Subjects: Technology, Business
+
+Niche Interest: Technology(AI, ML), Business(Thomas Sewell) ,Business(Oil & Gas)
+
+Prompt: I want daily updates on what is happening in AI and ML markets. Essays and writing from Thomas Sowell. News updates on the Oil and Gas industry.
+
+Frequency: Daily. *Only option is daily for now. Email us otherwise.
+
+Other: You can attatch PDFS and other documents of writings. I want it written in a business oriented style...
+
+
+Save Button(not functional yet). Edit button(not functinal yet)
+

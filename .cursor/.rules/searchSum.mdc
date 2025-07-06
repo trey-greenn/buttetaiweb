@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+import { NextApiRequest, NextApiResponse } from 'next';
+import fetch from 'node-fetch';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+
+const SERPAPI_URL = 'https://serpapi.com/search.json';
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { topic, section_id, user_id } = req.query;
+
+  if (!topic) return res.status(400).json({ error: 'Topic is required' });
+
+  const serpUrl = `${SERPAPI_URL}?q=${encodeURIComponent(topic)}&api_key=${process.env.SERPAPI_KEY}&num=5`;
+
+  const serpRes = await fetch(serpUrl);
+  const serpData = await serpRes.json();
+
+  const articles = serpData.organic_results?.slice(0, 5) || [];
+
+  const summaries = [];
+
+  for (const article of articles) {
+    const prompt = `Summarize this for a newsletter:\n\nTitle: ${article.title}\nSnippet: ${article.snippet}\nLink: ${article.link}`;
+
+    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4-turbo',
+        messages: [
+          { role: 'system', content: 'You are a helpful AI assistant summarizing web content for a newsletter.' },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+      }),
+    });
+
+    const openaiJson = await openaiRes.json();
+    const summary = openaiJson.choices?.[0]?.message?.content || 'No summary generated.';
+
+    // Save to Supabase
+    await supabase.from('article_summaries').insert({
+      user_id,
+      section_id,
+      title: article.title,
+      url: article.link,
+      raw_snippet: article.snippet,
+      summary_text: summary,
+    });
+
+    summaries.push({ title: article.title, url: article.link, summary });
+  }
+
+  return res.status(200).json({ topic, summaries });
+}
