@@ -37,7 +37,7 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-md mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Log In</h1>
+      <h1 className="text-2xl font-bold mb-6 text-black">Log In</h1>
       
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -47,7 +47,7 @@ export default function LoginForm() {
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
+          <label htmlFor="email" className="block text-sm font-medium mb-1 text-black">
             Email
           </label>
           <input
@@ -55,13 +55,13 @@ export default function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded bg-black text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
         
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
+          <label htmlFor="password" className="block text-sm font-medium mb-1 text-black">
             Password
           </label>
           <input
@@ -69,7 +69,7 @@ export default function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border border-gray-300 rounded bg-black text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
@@ -77,13 +77,13 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:bg-blue-600 disabled:text-white disabled:opacity-75 font-medium text-base"
         >
           {isLoading ? 'Logging in...' : 'Log In'}
         </button>
       </form>
       
-      <p className="mt-4 text-center text-sm">
+      <p className="mt-4 text-center text-sm bg-black text-white">
         Don't have an account?{' '}
         <Link href="/signup" className="text-blue-600 hover:underline">
           Sign up
