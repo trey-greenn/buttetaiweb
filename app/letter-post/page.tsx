@@ -15,8 +15,7 @@ const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 interface LetterPost {
   id: string;
   title: string;
-  content: string;
-  published_at: string;
+  summary: string;
   created_at: string;
 }
 
@@ -39,10 +38,9 @@ export default function LetterPostPage() {
     
     try {
       const { data, error } = await supabase
-        .from('letter_posts')
+        .from('article_summaries_simple')
         .select('*')
-        .eq('user_id', user.id)
-        .order('published_at', { ascending: false });
+        .order('created_at', { ascending: false });
       
       if (error) {
         throw error;
@@ -95,9 +93,9 @@ export default function LetterPostPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-3 gap-6">
+        <>
           {selectedPost ? (
-            <div className="md:col-span-3 bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden">
+            <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden">
               <div className="p-6">
                 <button 
                   onClick={() => setSelectedPost(null)}
@@ -111,41 +109,43 @@ export default function LetterPostPage() {
                 
                 <h2 className="text-2xl font-bold mb-2 text-white">{selectedPost.title}</h2>
                 <p className="text-gray-400 mb-6">
-                  {format(new Date(selectedPost.published_at), 'MMMM d, yyyy')}
+                  {format(new Date(selectedPost.created_at), 'MMMM d, yyyy')}
                 </p>
                 
                 <div className="prose prose-invert max-w-none">
-                  {selectedPost.content.split('\n').map((paragraph, index) => (
+                  {selectedPost.summary.split('\n').map((paragraph, index) => (
                     <p key={index} className="mb-4">{paragraph}</p>
                   ))}
                 </div>
               </div>
             </div>
           ) : (
-            posts.map(post => (
-              <div 
-                key={post.id}
-                className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden cursor-pointer hover:bg-gray-750 transition duration-200"
-                onClick={() => handleSelectPost(post)}
-              >
-                <div className="p-6">
-                  <h2 className="text-lg font-semibold mb-2 text-white">{post.title}</h2>
-                  <p className="text-gray-400 text-sm mb-3">
-                    {format(new Date(post.published_at), 'MMMM d, yyyy')}
-                  </p>
-                  <p className="text-gray-300 line-clamp-3">
-                    {post.content.substring(0, 150)}...
-                  </p>
-                  <button 
-                    className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm font-medium"
-                  >
-                    Read full letter →
-                  </button>
+            <div className="grid gap-6">
+              {posts.map(post => (
+                <div 
+                  key={post.id}
+                  className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 overflow-hidden cursor-pointer hover:bg-gray-750 transition duration-200"
+                  onClick={() => handleSelectPost(post)}
+                >
+                  <div className="p-6">
+                    <h2 className="text-lg font-semibold mb-2 text-white">{post.title}</h2>
+                    <p className="text-gray-400 text-sm mb-3">
+                      {format(new Date(post.created_at), 'MMMM d, yyyy')}
+                    </p>
+                    <p className="text-gray-300 line-clamp-3">
+                      {post.summary.substring(0, 150).replace(/\n/g, ' ')}...
+                    </p>
+                    <button 
+                      className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm font-medium"
+                    >
+                      Read full letter →
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

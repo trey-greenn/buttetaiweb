@@ -36,7 +36,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6">
+    <div className="w-full max-w-md mx-auto ">
       <h1 className="text-2xl font-bold mb-6 text-black">Log In</h1>
       
       {error && (
@@ -47,7 +47,7 @@ export default function LoginForm() {
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1 text-black">
+          <label htmlFor="email" className="block text-md font-medium mb-1 text-black">
             Email
           </label>
           <input
@@ -55,13 +55,13 @@ export default function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded bg-black text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-2 border rounded bg-[#5e503f] text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
         
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1 text-black">
+          <label htmlFor="password" className="block text-md font-medium mb-1 text-black">
             Password
           </label>
           <input
@@ -69,7 +69,7 @@ export default function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded bg-black text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-2 border border-gray-300 rounded bg-[#5e503f] text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             required
           />
         </div>
@@ -83,7 +83,7 @@ export default function LoginForm() {
         </button>
       </form>
       
-      <p className="mt-4 text-center text-sm bg-black text-white">
+      <p className="mt-4 text-center text-sm bg-black text-gray-300 border border-white rounded-md p-2">
         Don't have an account?{' '}
         <Link href="/signup" className="text-blue-600 hover:underline">
           Sign up
