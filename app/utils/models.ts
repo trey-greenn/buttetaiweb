@@ -36,6 +36,17 @@ export interface ArticleSummary {
   created_at: string;
 }
 
+export interface ArticleSummarySimple {
+  id: string;
+  title: string;
+  url: string;
+  raw_snippet: string;
+  summary: string;
+  created_at: string;
+}
+
+
+
 export interface LetterPost {
   id: string;
   user_id: string;

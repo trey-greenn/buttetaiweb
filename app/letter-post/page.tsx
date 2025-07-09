@@ -6,24 +6,25 @@ import { createClient } from '@supabase/supabase-js';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { LetterPost as LetterPostType } from '../utils/models';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const supabase = createClient(supabaseUrl!, supabaseAnonKey!);
 
-interface LetterPost {
+interface PostDisplayData {
   id: string;
   title: string;
-  summary: string;
+  content: string;
   created_at: string;
 }
 
 export default function LetterPostPage() {
   const { user } = useAuth();
-  const [posts, setPosts] = useState<LetterPost[]>([]);
+  const [posts, setPosts] = useState<PostDisplayData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedPost, setSelectedPost] = useState<LetterPost | null>(null);
+  const [selectedPost, setSelectedPost] = useState<PostDisplayData | null>(null);
 
   useEffect(() => {
     if (user) {
@@ -38,8 +39,9 @@ export default function LetterPostPage() {
     
     try {
       const { data, error } = await supabase
-        .from('article_summaries_simple')
+        .from('letter_posts')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -54,7 +56,7 @@ export default function LetterPostPage() {
     }
   };
 
-  const handleSelectPost = (post: LetterPost) => {
+  const handleSelectPost = (post: PostDisplayData) => {
     setSelectedPost(post);
   };
 
@@ -82,7 +84,7 @@ export default function LetterPostPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-900 min-h-screen text-gray-100">
+    <div className="max-w-4xl mx-auto p-6 space-y-6 bg-gray-900 min-h-screen text-gray-100 rounded-lg my-4">
       <h1 className="text-3xl font-bold mb-8 text-white">Your Letters</h1>
       
       {posts.length === 0 ? (
@@ -113,7 +115,7 @@ export default function LetterPostPage() {
                 </p>
                 
                 <div className="prose prose-invert max-w-none">
-                  {selectedPost.summary.split('\n').map((paragraph, index) => (
+                  {selectedPost.content.split('\n').map((paragraph, index) => (
                     <p key={index} className="mb-4">{paragraph}</p>
                   ))}
                 </div>
@@ -133,7 +135,7 @@ export default function LetterPostPage() {
                       {format(new Date(post.created_at), 'MMMM d, yyyy')}
                     </p>
                     <p className="text-gray-300 line-clamp-3">
-                      {post.summary.substring(0, 150).replace(/\n/g, ' ')}...
+                      {post.content.substring(0, 150).replace(/\n/g, ' ')}...
                     </p>
                     <button 
                       className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm font-medium"

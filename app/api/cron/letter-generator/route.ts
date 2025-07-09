@@ -19,13 +19,10 @@ const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 // Define interface for article summaries
 interface ArticleSummary {
   id?: string;
-  user_id: string;
-  letter_settings_id: string;
-  topic: string;
   title: string;
   url: string;
   raw_snippet?: string;
-  summary_text: string;
+  summary: string;
   created_at?: string;
 }
 
@@ -141,13 +138,11 @@ export async function GET(request: NextRequest) {
             
             // Save to Supabase
             const articleSummary: ArticleSummary = {
-              user_id,
-              letter_settings_id,
-              topic,
-              title,
+            title,
               url,
               raw_snippet: snippet,
-              summary_text: summary
+              summary: summary,
+              created_at: new Date().toISOString(),
             };
             
             const { data: savedSummary, error: summaryError } = await supabase

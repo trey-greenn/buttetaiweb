@@ -1,7 +1,7 @@
 {
     "crons": [
       {
-        "path": "/api/cron/update-timestamp",
+        "path": "/api/cron/letter-generator",
         "schedule": "0 0 * * *"
       }
     ]

@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
             
             // Save to Supabase
             const { data: section, error: sectionError } = await supabase
-              .from('article_summaries')
+              .from('article_summaries_simple')
               .insert({
                 user_id,
                 section_id: letter_settings_id,
