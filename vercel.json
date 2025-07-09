@@ -1,11 +1,8 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/letter-generator",
-      "schedule": "0 0 * * *",
-      "headers": {
-        "Authorization": "Bearer ${CRON_SECRET}"
+    "crons": [
+      {
+        "path": "/api/cron/letter-generator",
+        "schedule": "0 0 * * *"
       }
-    }
-  ]
-}
+    ]
+  }

@@ -27,11 +27,13 @@ interface ArticleSummary {
 }
 
 export async function GET(request: NextRequest) {
-  // Verify cron secret to ensure this endpoint is only called by the cron job
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader || authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+    // Check if it's a Vercel cron job or verify using secret
+    const isVercelCron = request.headers.get('x-vercel-cron') === '1';
+    const hasValidAuth = request.headers.get('authorization') === `Bearer ${cronSecret}`;
+    
+    if (!isVercelCron && !hasValidAuth) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
   
   try {
     // Validate environment variables
