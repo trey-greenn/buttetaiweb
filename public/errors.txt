@@ -1,0 +1,9 @@
+825-fc37c436f8ffa837.js:6 Multiple GoTrueClient instances detected in the same browser context. It is not an error, but this should be avoided as it may produce undefined behavior when used concurrently under the same storage key
+
+Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'checkoutUrls')
+
+Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'map')
+    at feature_extension-platform-merchant-homepage-plugin-view.js:1:5171
+
+    Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'checkoutUrls')
+    at background.js:2:1122188

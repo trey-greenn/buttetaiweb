@@ -57,7 +57,7 @@ export default function Header() {
                       Agent
                     </Link>
                     <Link 
-                      href="/image" 
+                      href="/image-generation" 
                       className="block px-4 py-2 text-sm text-[#5e503f] hover:bg-[#f5f0e1]"
                       onClick={() => setShowToolsDropdown(false)}
                     >
