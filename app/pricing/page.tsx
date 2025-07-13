@@ -1,11 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { loadStripe } from '@stripe/stripe-js';
-import dotenv from 'dotenv';
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
-
-
+import CheckoutButton from '@/app/components/pricing/CheckoutButton';
 
 export default function PricingPage() {
   const plans = [
@@ -55,25 +50,6 @@ export default function PricingPage() {
       popular: false
     }
   ];
-
-  const handleProCheckout = async () => {
-    const stripe = await stripePromise;
-    if (!stripe) {
-      console.error('Stripe has not been initialized properly.');
-      return;
-    }
-  
-    const response = await fetch('/api/create-checkout-session', {
-      method: 'POST',
-    });
-  
-    const { sessionId } = await response.json();
-    const { error } = await stripe.redirectToCheckout({ sessionId });
-  
-    if (error) {
-      console.error('Stripe checkout error:', error);
-    }
-  };
 
   return (
     <div className="bg-[#f5f0e1] min-h-screen py-16">
@@ -138,12 +114,7 @@ export default function PricingPage() {
             </ul>
 
             {plan.name === 'Pro' ? (
-              <button
-                onClick={handleProCheckout}
-                className="block w-full py-3 px-4 rounded-md text-center font-medium bg-[#5e503f] text-white hover:bg-[#403d39] transition"
-              >
-                {plan.cta}
-              </button>
+              <CheckoutButton label={plan.cta} />
             ) : (
               <Link
                 href={plan.ctaLink}

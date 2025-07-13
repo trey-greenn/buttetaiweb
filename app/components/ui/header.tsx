@@ -61,7 +61,7 @@ export default function Header() {
                       className="block px-4 py-2 text-sm text-[#5e503f] hover:bg-[#f5f0e1]"
                       onClick={() => setShowToolsDropdown(false)}
                     >
-                      Image
+                      Image Generation
                     </Link>
                   </div>
                 )}
