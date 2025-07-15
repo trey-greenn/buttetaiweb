@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from '@/app/lib/auth-context';
 import Header from '@/app/components/ui/header';
 import Footer from '@/app/components/footer/Footer';
-import { GoogleTagManager } from '@next/third-parties/google'
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +33,30 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <head>
         <meta name="trustpilot-one-time-domain-verification-id" content="eb1264c5-2004-4891-bca6-d141907824b9"/>
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
       </head>
       <body>
         <AuthProvider>
           <Header />
-          <GoogleTagManager gtmId="G-5J1WGM88ZS" />
+          {/* Google Analytics Implementation */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-5J1WGM88ZS"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-5J1WGM88ZS');
+            `}
+          </Script>
+          <Script
+            src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+            strategy="afterInteractive"
+            type="text/javascript"
+          />
           <main>{children}</main>
           <Footer />
         </AuthProvider>

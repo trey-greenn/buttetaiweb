@@ -74,6 +74,9 @@ export default function Header() {
               <Link href="/about" className="text-[#5e503f] hover:text-[#403d39]">
                 About
               </Link>
+              <Link href="/blog" className="text-[#5e503f] hover:text-[#403d39]">
+                Blog
+              </Link>
             </nav>
           </div>
           

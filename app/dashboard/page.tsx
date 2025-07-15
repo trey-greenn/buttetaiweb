@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/app/lib/auth-context';
 import Link from 'next/link';
 import { withAuth } from '@/app/lib/with-auth';
+import SubscriptionDetails from '@/app/components/dashboard/SubscriptionDetails';
 
 function Dashboard() {
   const { user, signOut } = useAuth();
@@ -48,6 +49,9 @@ function Dashboard() {
                 </button>
               </div>
             </div>
+
+            {/* Add Subscription Details here */}
+            <SubscriptionDetails />
           </div>
         );
       case 'letter':

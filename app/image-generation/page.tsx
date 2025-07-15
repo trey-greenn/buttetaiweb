@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { withAuth } from '@/app/lib/with-auth';
 import { toast } from 'react-hot-toast';
+import ProFeature from '@/app/components/subscriptions/ProFeature';
+
 
 type ImageSize = '1024x1024' | '1024x1792' | '1792x1024';
 type ImageQuality = 'standard' | 'hd';
@@ -75,6 +77,7 @@ const ImageGeneration = () => {
   };
 
   return (
+    <ProFeature>
     <div className="max-w-5xl mx-auto p-6">
       <h1 className="text-3xl font-bold text-[#5e503f] mb-6">AI Image Generation</h1>
       
@@ -213,6 +216,7 @@ const ImageGeneration = () => {
         </div>
       )}
     </div>
+    </ProFeature>
   );
 };
 

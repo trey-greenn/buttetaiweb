@@ -33,7 +33,6 @@ async function getBlogPosts(): Promise<BlogPost[]> {
       .order('published_at', { ascending: false });
       
     console.log('Query completed');
-    console.log('Data received:', data);
     
     if (error) {
       console.error('Error fetching blog posts:', error);

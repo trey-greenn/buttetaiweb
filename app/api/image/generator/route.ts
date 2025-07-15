@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { z } from 'zod';
+import { requireProPlan } from '@/app/utils/pro-middleware';
 
-// Initialize OpenAI client
+// Initialize OpenAI API key
 const openaiApiKey = process.env.OPENAI_API_KEY;
 
 // Request validation schema
@@ -14,7 +15,8 @@ const RequestSchema = z.object({
   n: z.number().int().min(1).max(4).default(1),
 });
 
-export async function POST(request: NextRequest) {
+// Actual image generation handler
+async function generateImageHandler(request: NextRequest) {
   try {
     // Parse and validate request body
     const body = await request.json();
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Initialize OpenAI client
+    // Check OpenAI API key
     if (!openaiApiKey) {
       return NextResponse.json(
         { error: 'OpenAI API key is not configured' },
@@ -69,4 +71,10 @@ export async function POST(request: NextRequest) {
       { status: error.status || 500 }
     );
   }
+}
+
+// Export the POST handler with Pro subscription check
+export async function POST(request: NextRequest) {
+  // Use the middleware to check for Pro access before processing the request
+  return requireProPlan(request, generateImageHandler);
 }

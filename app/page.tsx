@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Script from "next/script";
 
 export default function Home() {
   return (
@@ -61,6 +62,26 @@ export default function Home() {
           >
             Learn More
           </a>
+        </div>
+        
+        {/* Trustpilot Review Widget */}
+        <div className="w-full mt-12 mb-8">
+          <div className="text-center mb-3">
+            <h3 className="text-xl font-semibold">Love BuffetAI? Share your experience!</h3>
+          </div>
+          
+          <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            <div 
+              className="trustpilot-widget"
+              data-locale="en-US"
+              data-template-id="56278e9abfbbba0bdcd568bc"
+              data-businessunit-id="68742a6888114dfce8762bc8"
+              data-style-height="52px"
+              data-style-width="100%"
+            >
+              <a href="https://www.trustpilot.com/review/buffetai.co" target="_blank" rel="noopener">Trustpilot</a>
+            </div>
+          </div>
         </div>
       </main>
       

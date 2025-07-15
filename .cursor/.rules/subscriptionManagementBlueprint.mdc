@@ -1,0 +1,214 @@
+
+# USER SUBSCRIPTION MANAGEMENT SYSTEM – BUFFETAI
+
+## GOAL:
+Implement a complete user subscription and permission system for BuffetAI using Supabase, Stripe, and Next.js. This will support Free vs. Pro user access and automate plan management, feature gating, and billing sync.
+
+---
+
+## 1. DATABASE STRUCTURE: SUPABASE
+
+Create table `user_subscriptions` to track each user's plan and status:
+
+```sql
+create table user_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  stripe_customer_id text unique,
+  stripe_subscription_id text unique,
+  plan text not null check (plan in ('free', 'pro')),
+  status text check (status in ('active', 'canceled', 'past_due', 'incomplete')),
+  current_period_end timestamptz,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+```
+
+RLS policy for user read access:
+```sql
+create policy "User can read their subscription"
+on user_subscriptions
+for select
+using (auth.uid() = user_id);
+```
+
+---
+
+## 2. STRIPE INTEGRATION – CHECKOUT + WEBHOOK
+
+### On signup:
+- Create Stripe customer
+- Store `stripe_customer_id` in Supabase
+
+```ts
+const customer = await stripe.customers.create({
+  email: user.email,
+  metadata: { supabase_uid: user.id },
+});
+
+await supabase.from('user_subscriptions').insert({
+  user_id: user.id,
+  stripe_customer_id: customer.id,
+  plan: 'free',
+  status: 'active',
+});
+```
+
+### Stripe Checkout Session:
+When user upgrades to Pro:
+
+```ts
+const session = await stripe.checkout.sessions.create({
+  customer: stripeCustomerId,
+  mode: 'subscription',
+  line_items: [{ price: 'price_abc123', quantity: 1 }],
+  success_url: `${BASE_URL}/account?upgrade=success`,
+  cancel_url: `${BASE_URL}/account`,
+  metadata: { user_id: supabaseUser.id },
+});
+```
+
+### Stripe Webhook Handler:
+Add `/api/stripe/webhook.ts`:
+
+```ts
+import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2023-10-16' });
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+export async function POST(req: NextRequest) {
+  const sig = req.headers.get('stripe-signature')!;
+  const body = await req.text();
+
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+  } catch (err) {
+    return new Response(`Webhook Error: ${err}`, { status: 400 });
+  }
+
+  if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.created') {
+    const subscription = event.data.object as Stripe.Subscription;
+    const plan = subscription.items.data[0].price.nickname?.toLowerCase() || 'free';
+
+    await supabase
+      .from('user_subscriptions')
+      .update({
+        plan,
+        status: subscription.status,
+        current_period_end: new Date(subscription.current_period_end * 1000),
+      })
+      .eq('stripe_subscription_id', subscription.id);
+  }
+
+  return new Response('ok', { status: 200 });
+}
+```
+
+---
+
+## 3. ACCESS CONTROL: SERVER + CLIENT
+
+### Helper function:
+```ts
+export async function getUserPlan(userId: string): Promise<'free' | 'pro'> {
+  const { data, error } = await supabase
+    .from('user_subscriptions')
+    .select('plan, status')
+    .eq('user_id', userId)
+    .single();
+
+  if (error || !data || data.status !== 'active') return 'free';
+  return data.plan;
+}
+```
+
+### Restrict Pro-only tools (e.g., AI Image Generator):
+```ts
+const plan = await getUserPlan(user.id);
+
+if (plan !== 'pro') {
+  return <UpgradePrompt />;
+}
+```
+
+Or inside an API route:
+```ts
+if (plan !== 'pro') {
+  return new Response('Unauthorized', { status: 403 });
+}
+```
+
+---
+
+## 4. UI: SUBSCRIPTION STATUS COMPONENT
+
+```tsx
+const SubscriptionStatus = ({ plan }: { plan: string }) => (
+  <div className="text-sm text-gray-600">
+    {plan === 'pro' ? 'Pro User – Full Access' : 'Free Plan – Limited Access'}
+  </div>
+);
+```
+
+Show upgrade call-to-action on restricted components:
+```tsx
+{plan === 'pro' ? (
+  <ImageGenerator />
+) : (
+  <div className="bg-yellow-100 border border-yellow-400 p-4 rounded">
+    This feature is available for Pro users. <Link href="/pricing">Upgrade now</Link>.
+  </div>
+)}
+```
+
+---
+
+## 5. BONUS: ENFORCE VIA SUPABASE RLS (Optional)
+
+Example: Only allow Pro users to insert image generations:
+
+```sql
+create policy "Only Pro users can generate images"
+on image_generations
+for insert
+to authenticated
+using (
+  auth.uid() in (
+    select user_id from user_subscriptions where plan = 'pro' and status = 'active'
+  )
+);
+```
+
+---
+
+## NPM PACKAGES
+
+```bash
+npm install stripe @supabase/supabase-js
+npm install --save-dev @types/stripe
+```
+
+---
+
+## FUTURE OPTIONS
+
+- Add `plan` to Supabase JWT for caching
+- Rate-limit tools based on plan (e.g., 10 images/day for Free)
+- Add Stripe customer portal for cancel/upgrade
+
+---
+
+## DONE ✅
+
+- Database ✅
+- Webhook ✅
+- Plan checks ✅
+- UI feedback ✅
+- Stripe customer metadata ✅
+- Ready to scale 🎯
