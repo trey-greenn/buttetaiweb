@@ -10,7 +10,7 @@ export default function PricingPage() {
       features: [
         'Basic AI letter generation',
         'Up to 3 topics per letter',
-        'Weekly delivery',
+        '7 Day Tools Trial ',
         'Standard templates',
       ],
       cta: 'Get Started',
@@ -23,6 +23,7 @@ export default function PricingPage() {
       features: [
         'Advanced AI letter generation',
         'Unlimited topics per letter',
+        'Email Optionality',
         'Daily delivery',
         'Premium templates',
         'Priority email support',

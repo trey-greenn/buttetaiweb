@@ -7,6 +7,7 @@ import { LetterSettings, NicheInterest } from '../utils/models';
 import { toast } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
 import { withAuth } from '@/app/lib/with-auth';
+import TrialFeature from '@/app/components/subscriptions/TrialFeature';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -192,6 +193,7 @@ function LetterPage() {
   }
 
   return (
+    <TrialFeature>
     <div className="max-w-4xl mx-auto p-6 space-y-8 min-h-screen ">
       <h1 className="text-3xl font-bold mb-8 text-[#5e503f]">Letter Automation</h1>
       
@@ -372,6 +374,7 @@ function LetterPage() {
         )}
       </div>
     </div>
+    </TrialFeature>
   );
 }
 

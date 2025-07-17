@@ -1,8 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
+import ProFeature from '@/app/components/subscriptions/ProFeature';
+
 
 export default function ResearchAssistantPage() {
   return (
+    <ProFeature>
     <div className="min-h-screen bg-[#f5f5dc] flex flex-col items-center p-8 font-[family-name:var(--font-geist-sans)] relative">
       {/* Content behind the overlay */}
       <main className="max-w-4xl w-full flex flex-col items-center gap-12 py-16 z-0">
@@ -60,5 +63,6 @@ export default function ResearchAssistantPage() {
         </div>
       </div>
     </div>
+    </ProFeature>
   );
 }

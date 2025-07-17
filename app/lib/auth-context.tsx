@@ -95,16 +95,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
     });
-
+  
     if (data.user && !error) {
+      // Create user profile
       await supabase.from('profiles').insert({
         id: data.user.id,
         name,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       });
+      
+      // Create free subscription with trial
+      await supabase.from('user_subscriptions').insert({
+        user_id: data.user.id,
+        plan: 'free',
+        status: 'active',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
     }
-
+  
     return { error };
   };
 
