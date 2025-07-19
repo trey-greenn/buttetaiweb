@@ -1,0 +1,495 @@
+
+
+<canvas id="canvas"></canvas>
+
+<div class="controls">
+    <div>🌲 Perlin Forest Generator</div>
+    <button onclick="resetForest()">New Forest</button>
+    <button onclick="toggleAnimation()">Pause/Play</button>
+    <button onclick="addTree()">Add Tree</button>
+</div>
+
+<div class="info">
+    Click anywhere to plant a new tree<br>
+    Watch the organic growth patterns
+</div>
+
+
+CSS
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(ellipse at center, #001122 0%, #000811 100%);
+    overflow: hidden;
+    font-family: 'Arial', sans-serif;
+}
+
+canvas {
+    display: block;
+    background: transparent;
+}
+
+.controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.controls button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.info {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    text-align: right;
+}
+
+
+JavaScript
+
+// Perlin Noise Implementation
+class PerlinNoise {
+    constructor(seed = 1) {
+        this.gradients = {};
+        this.memory = {};
+        this.seed = seed;
+    }
+
+    rand(n) {
+        n = (n << 13) ^ n;
+        const t = (n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff;
+        return 1.0 - t * 0.931322574615479e-9;
+    }
+
+    gradient(xi, yi) {
+        const random = 2920 * Math.sin(xi * 21942 + yi * 171324 + 8912) * Math.cos(xi * 23157 * yi * 217832 + 9758);
+        return {
+            x: Math.cos(random),
+            y: Math.sin(random)
+        };
+    }
+
+    dot(g, x, y) {
+        return g.x * x + g.y * y;
+    }
+
+    smoothstep(t) {
+        return t * t * (3 - 2 * t);
+    }
+
+    noise(x, y) {
+        const xi = Math.floor(x);
+        const yi = Math.floor(y);
+        const xf = x - xi;
+        const yf = y - yi;
+
+        const tlg = this.gradient(xi, yi);
+        const trg = this.gradient(xi + 1, yi);
+        const blg = this.gradient(xi, yi + 1);
+        const brg = this.gradient(xi + 1, yi + 1);
+
+        const tl = this.dot(tlg, xf, yf);
+        const tr = this.dot(trg, xf - 1, yf);
+        const bl = this.dot(blg, xf, yf - 1);
+        const br = this.dot(brg, xf - 1, yf - 1);
+
+        const u = this.smoothstep(xf);
+        const v = this.smoothstep(yf);
+
+        const top = tl + u * (tr - tl);
+        const bottom = bl + u * (br - bl);
+
+        return top + v * (bottom - top);
+    }
+
+    octaveNoise(x, y, octaves = 4, persistence = 0.5, scale = 0.01) {
+        let value = 0;
+        let amplitude = 1;
+        let frequency = scale;
+        let maxValue = 0;
+
+        for (let i = 0; i < octaves; i++) {
+            value += this.noise(x * frequency, y * frequency) * amplitude;
+            maxValue += amplitude;
+            amplitude *= persistence;
+            frequency *= 2;
+        }
+
+        return value / maxValue;
+    }
+}
+
+// Tree Branch Class
+class Branch {
+    constructor(start, end, generation = 0, parent = null) {
+        this.start = start;
+        this.end = end;
+        this.generation = generation;
+        this.parent = parent;
+        this.children = [];
+        this.thickness = Math.max(1, 8 - generation * 1.2);
+        this.growthProgress = 0;
+        this.maxGrowthProgress = 1;
+        this.color = this.getColor();
+        this.leaves = [];
+        this.swayOffset = Math.random() * Math.PI * 2;
+    }
+
+    getColor() {
+        const hue = 120 + (this.generation * 15) + (Math.random() * 20 - 10);
+        const saturation = Math.max(20, 80 - this.generation * 10);
+        const lightness = Math.max(15, 40 - this.generation * 3);
+        return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
+
+    getCurrentEnd() {
+        if (this.growthProgress >= 1) return this.end;
+        
+        return {
+            x: this.start.x + (this.end.x - this.start.x) * this.growthProgress,
+            y: this.start.y + (this.end.y - this.start.y) * this.growthProgress
+        };
+    }
+
+    update(time, perlin) {
+        if (this.growthProgress < this.maxGrowthProgress) {
+            this.growthProgress += 0.01;
+        }
+
+        // Add organic sway using Perlin noise
+        if (this.generation > 0) {
+            const swayAmount = (this.generation * 0.5) * Math.sin(time * 0.001 + this.swayOffset);
+            const noiseInfluence = perlin.octaveNoise(this.end.x * 0.01, time * 0.0005, 3) * 10;
+            
+            this.currentSway = swayAmount + noiseInfluence;
+        }
+
+        this.children.forEach(child => child.update(time, perlin));
+    }
+
+    draw(ctx, time) {
+        if (this.growthProgress <= 0) return;
+
+        const currentEnd = this.getCurrentEnd();
+        
+        // Apply sway transformation
+        if (this.generation > 0 && this.currentSway) {
+            ctx.save();
+            ctx.translate(this.start.x, this.start.y);
+            ctx.rotate(this.currentSway * 0.01);
+            ctx.translate(-this.start.x, -this.start.y);
+        }
+
+        // Draw branch with gradient
+        const gradient = ctx.createLinearGradient(
+            this.start.x, this.start.y,
+            currentEnd.x, currentEnd.y
+        );
+        gradient.addColorStop(0, this.color);
+        gradient.addColorStop(1, this.getLeafColor());
+
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = this.thickness;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        ctx.beginPath();
+        ctx.moveTo(this.start.x, this.start.y);
+        ctx.lineTo(currentEnd.x, currentEnd.y);
+        ctx.stroke();
+
+        // Draw leaves for end branches
+        if (this.children.length === 0 && this.growthProgress > 0.8) {
+            this.drawLeaves(ctx, currentEnd, time);
+        }
+
+        if (this.generation > 0 && this.currentSway) {
+            ctx.restore();
+        }
+
+        // Draw children
+        this.children.forEach(child => child.draw(ctx, time));
+    }
+
+    getLeafColor() {
+        const seasons = ['spring', 'summer', 'autumn', 'winter'];
+        const season = seasons[Math.floor(Date.now() / 10000) % 4];
+        
+        switch(season) {
+            case 'spring': return `hsl(${100 + Math.random() * 20}, 70%, 50%)`;
+            case 'summer': return `hsl(${120 + Math.random() * 15}, 80%, 40%)`;
+            case 'autumn': return `hsl(${30 + Math.random() * 40}, 90%, 50%)`;
+            case 'winter': return `hsl(${200 + Math.random() * 20}, 30%, 70%)`;
+            default: return `hsl(120, 70%, 50%)`;
+        }
+    }
+
+    drawLeaves(ctx, pos, time) {
+        const leafCount = Math.floor(Math.random() * 5) + 3;
+        
+        for (let i = 0; i < leafCount; i++) {
+            const angle = (Math.PI * 2 * i / leafCount) + time * 0.001;
+            const distance = 5 + Math.random() * 8;
+            const leafX = pos.x + Math.cos(angle) * distance;
+            const leafY = pos.y + Math.sin(angle) * distance;
+            
+            ctx.fillStyle = this.getLeafColor();
+            ctx.beginPath();
+            ctx.ellipse(leafX, leafY, 3, 1.5, angle, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+}
+
+// Tree Class
+class Tree {
+    constructor(x, y, perlin) {
+        this.root = { x, y };
+        this.branches = [];
+        this.perlin = perlin;
+        this.maxGenerations = 6;
+        this.createInitialBranch();
+        this.growthTimer = 0;
+    }
+
+    createInitialBranch() {
+        const height = 60 + Math.random() * 40;
+        const trunk = new Branch(
+            this.root,
+            { x: this.root.x, y: this.root.y - height },
+            0
+        );
+        this.branches.push(trunk);
+    }
+
+    update(time) {
+        this.growthTimer += 1;
+        
+        // Grow new branches periodically
+        if (this.growthTimer % 120 === 0) {
+            this.growBranches();
+        }
+
+        this.branches.forEach(branch => branch.update(time, this.perlin));
+    }
+
+    growBranches() {
+        const newBranches = [];
+        
+        this.branches.forEach(branch => {
+            if (branch.generation < this.maxGenerations && 
+                branch.children.length === 0 && 
+                branch.growthProgress > 0.8 &&
+                Math.random() < 0.7) {
+                
+                this.createChildBranches(branch, newBranches);
+            }
+        });
+
+        newBranches.forEach(branch => {
+            branch.parent.children.push(branch);
+            this.branches.push(branch);
+        });
+    }
+
+    createChildBranches(parent, newBranches) {
+        const branchCount = parent.generation === 0 ? 3 : Math.floor(Math.random() * 3) + 1;
+        
+        for (let i = 0; i < branchCount; i++) {
+            const noiseValue = this.perlin.octaveNoise(
+                parent.end.x * 0.01,
+                parent.end.y * 0.01 + i,
+                4
+            );
+            
+            const baseAngle = parent.generation === 0 ? -Math.PI / 2 : 
+                             Math.atan2(parent.end.y - parent.start.y, parent.end.x - parent.start.x);
+            
+            const angleVariation = (noiseValue * Math.PI * 0.8) + (Math.random() - 0.5) * Math.PI * 0.4;
+            const angle = baseAngle + angleVariation;
+            
+            const lengthNoise = this.perlin.octaveNoise(
+                parent.end.x * 0.005,
+                parent.end.y * 0.005 + i * 10,
+                3
+            );
+            
+            const baseLength = Math.max(15, 45 - parent.generation * 6);
+            const length = baseLength * (0.7 + lengthNoise * 0.6);
+            
+            const endX = parent.end.x + Math.cos(angle) * length;
+            const endY = parent.end.y + Math.sin(angle) * length;
+            
+            const newBranch = new Branch(
+                { x: parent.end.x, y: parent.end.y },
+                { x: endX, y: endY },
+                parent.generation + 1,
+                parent
+            );
+            
+            newBranches.push(newBranch);
+        }
+    }
+
+    draw(ctx, time) {
+        this.branches.forEach(branch => branch.draw(ctx, time));
+    }
+}
+
+// Main Application
+class PerlinForest {
+    constructor() {
+        this.canvas = document.getElementById('canvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.perlin = new PerlinNoise(Date.now());
+        this.trees = [];
+        this.animating = true;
+        this.time = 0;
+        
+        this.setupCanvas();
+        this.setupEventListeners();
+        this.generateInitialForest();
+        this.animate();
+    }
+
+    setupCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
+    }
+
+    setupEventListeners() {
+        this.canvas.addEventListener('click', (e) => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            this.addTreeAt(x, y);
+        });
+    }
+
+    generateInitialForest() {
+        const treeCount = 8 + Math.floor(Math.random() * 12);
+        
+        for (let i = 0; i < treeCount; i++) {
+            const x = Math.random() * this.canvas.width;
+            const y = this.canvas.height - 50 - Math.random() * 100;
+            this.addTreeAt(x, y);
+        }
+    }
+
+    addTreeAt(x, y) {
+        const tree = new Tree(x, y, this.perlin);
+        this.trees.push(tree);
+    }
+
+    animate() {
+        if (!this.animating) {
+            requestAnimationFrame(() => this.animate());
+            return;
+        }
+
+        this.time += 16;
+        
+        // Clear with atmospheric background
+        const gradient = this.ctx.createRadialGradient(
+            this.canvas.width / 2, this.canvas.height / 2, 0,
+            this.canvas.width / 2, this.canvas.height / 2, Math.max(this.canvas.width, this.canvas.height)
+        );
+        gradient.addColorStop(0, 'rgba(0, 17, 34, 0.1)');
+        gradient.addColorStop(1, 'rgba(0, 8, 17, 0.3)');
+        
+        this.ctx.fillStyle = gradient;
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // Update and draw trees
+        this.trees.forEach(tree => {
+            tree.update(this.time);
+            tree.draw(this.ctx, this.time);
+        });
+        
+        // Add atmospheric particles
+        this.drawAtmosphere();
+        
+        requestAnimationFrame(() => this.animate());
+    }
+
+    drawAtmosphere() {
+        const particleCount = 20;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const x = Math.random() * this.canvas.width;
+            const y = Math.random() * this.canvas.height;
+            const noise = this.perlin.octaveNoise(x * 0.01, y * 0.01 + this.time * 0.0001, 3);
+            const alpha = Math.max(0, noise * 0.3);
+            
+            this.ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, 1, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+    }
+
+    reset() {
+        this.trees = [];
+        this.perlin = new PerlinNoise(Date.now());
+        this.generateInitialForest();
+    }
+
+    toggleAnimation() {
+        this.animating = !this.animating;
+    }
+}
+
+// Global functions for controls
+let forest;
+
+function resetForest() {
+    forest.reset();
+}
+
+function toggleAnimation() {
+    forest.toggleAnimation();
+}
+
+function addTree() {
+    const x = Math.random() * forest.canvas.width;
+    const y = forest.canvas.height - 50 - Math.random() * 100;
+    forest.addTreeAt(x, y);
+}
+
+// Initialize the forest
+window.addEventListener('load', () => {
+    forest = new PerlinForest();
+});

@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function PaperView() {
   return (
@@ -17,104 +18,188 @@ export default function PaperView() {
         {/* Header Section */}
         <div className="text-center relative">
           <div className="relative">
-            <div className="relative w-[12%] left-2.5 border-[3px] border-double border-[#2f2f2f] p-[10px_15px] leading-5 inline-block my-0 mx-[50px_0_20px_-360px] md:hidden lg:inline-block">
+            {/* <div className="relative w-[12%] left-2.5 border-[3px] border-double border-[#2f2f2f] p-[10px_15px] leading-5 inline-block my-0 mx-[50px_0_20px_-360px] md:hidden lg:inline-block">
               <span className="italic">Weatherforcast for the next 24 hours: Plenty of Sunshine</span><br />
               <span>Wind: 7km/h SSE; Ther: 21°C; Hum: 82%</span>
-            </div>
-            <h1 className="font-playfair font-black text-[80px] uppercase inline-block leading-[72px] mb-5">Newpost York</h1>
+            </div> */}
+            <h1 className="font-playfair font-black text-[80px] uppercase inline-block leading-[72px] my-5">Buffetai</h1>
           </div>
 
-          <div className="uppercase border-b-2 border-t-2 border-[#2f2f2f] py-3">York, MA - Thursday August 30, 1978 - Seven Pages</div>
+          <div className="uppercase border-b-2 border-t-2 border-[#2f2f2f] text-[36px] py-3">Improving Information Diets</div>
         </div>
 
         {/* Content Section */}
-        <div className="text-[0] leading-[0] word-spacing-[-0.31em] inline-block m-[30px_2%_0]">
-          <div className="flex flex-wrap">
-            {/* Column 1 */}
+        <div className="text-[0] leading-[0] word-spacing-[-0.31em] inline-block m-[30px_auto_0] w-full ">
+          <div className="flex justify-center">
+            {/* Column 1 Tooling Section*/}
             <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f] first:border-l-0">
               <div className="text-center">
-                <h2 className="font-playfair font-normal italic text-[36px] p-[10px_0] block mx-auto">When darkness overspreads my eyes</h2>
-                <p className="font-playfair font-bold text-xs p-[10px_0]">by JOHANN WOLFGANG VON GOETHE</p>
+                <Link href ='/tools'>
+                    <h2 className="font-playfair font-normal italic text-[36px] p-[10px_0] block mx-auto">Check Out Our Tools</h2>
+                </Link>
+                <p className="font-playfair font-bold text-xs p-[10px_0]">by BUFFET AI TEAM</p>
               </div>
-              <p className="mt-0 mb-5">When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream;</p>
-              <p className="mt-0 mb-5">and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul, as my soul is the mirror of the infinite God!</p>
-            </div>
-
-            {/* Column 2 */}
-            <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f]">
-              <div className="text-center">
-                <h2 className="font-playfair font-normal text-[42px] uppercase italic p-[10px_0] block mx-auto">Give people courage</h2>
-                <p className="font-playfair font-normal text-lg p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[13px] after:block after:mx-auto">The crowd seemed to grow</p>
-              </div>
-              <p className="mt-0 mb-5">The sunset faded to twilight before anything further happened. The crowd far away on the left, towards Woking, seemed to grow, and I heard now a faint murmur from it. The little knot of people towards Chobham dispersed. There was scarcely an intimation of movement from the pit.</p>
-              
-              <figure className="m-[0_0_20px]">
+              <p className="mt-0 mb-5">Our suite of AI-powered tools is designed to streamline your workflow and enhance productivity. From automated content generation to intelligent data analysis, we provide cutting-edge solutions for modern businesses.</p>
+              <figure className="m-[0_0_20px] border-2 border-[#2f2f2f] p-4">
+                <div className="text-center mb-2">
+                  <h3 className="font-playfair font-bold text-xl uppercase mb-1">SPECIAL OFFER</h3>
+                  <p className="font-serif italic text-sm mb-3">Limited Time Only</p>
+                </div>
                 <div className="relative w-full h-[150px]">
                   <Image 
                     src="/thinker.png" 
-                    alt="Hermine hoping for courage"
+                    alt="Personal Newsletter Curation"
                     layout="fill"
                     objectFit="cover"
                     className="sepia-[80%] contrast-100 opacity-80 mix-blend-multiply"
                   />
                 </div>
-                <figcaption className="italic text-xs">Hermine hoping for courage.</figcaption>
+                <div className="text-center mt-3">
+                  <h4 className="font-playfair font-bold text-lg">AI Assistant Agents</h4>
+                  <p className="font-serif text-xs mt-1 mb-2">Tailored information delivered to your inbox daily</p>
+                  <p className="font-serif text-sm font-bold mt-3">Subscribe Today: $9.99/month</p>
+                  <Link href="/pricing" className="inline-block mt-2 border border-[#2f2f2f] px-4 py-1 text-xs font-bold hover:bg-[#2f2f2f] hover:text-[#f9f7f1] transition-colors">
+                    SUBSCRIBE NOW
+                  </Link>
+                </div>
               </figure>
-
-              <p className="mt-0 mb-5">It was this, as much as anything, that gave people courage, and I suppose the new arrivals from Woking also helped to restore confidence. At any rate, as the dusk came on a slow, intermittent movement upon the sand pits began, a movement that seemed to gather force as the stillness of the evening about the cylinder remained unbroken. Vertical black figures in twos and threes would advance, stop, watch, and advance again, spreading out as they did so in a thin irregular crescent that promised to enclose the pit in its attenuated horns. I, too, on my side began to move towards the pit.</p>
-
-              <p className="mt-0 mb-5">Then I saw some cabmen and others had walked boldly into the sand pits, and heard the clatter of hoofs and the gride of wheels. I saw a lad trundling off the barrow of apples. And then, within thirty yards of the pit, advancing from the direction of Horsell, I noted a little black knot of men, the foremost of whom was waving a white flag.</p>
+              <p className="mt-0 mb-5">Each tool is carefully crafted with user experience in mind, ensuring intuitive interfaces and powerful functionality. Whether you're a content creator, marketer, or business analyst, our tools adapt to your specific needs and help you achieve better results in less time.</p>
             </div>
 
-            {/* Column 3 */}
+            {/* Column 2 About Section*/}
             <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f]">
               <div className="text-center">
-                <h2 className="font-playfair font-bold text-[30px] uppercase p-[10px_0] block mx-auto">May the Force be with you</h2>
-                <p className="font-playfair font-normal italic text-[24px] p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[13px] after:block after:mx-auto">Let go your conscious self and act on instinct</p>
+                <Link href='/about'>
+                    <h2 className="font-playfair font-normal text-[42px] uppercase italic p-[10px_0] block mx-auto">What are we about?</h2>
+                </Link>
+                <p className="font-playfair font-normal text-lg p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[13px] after:block after:mx-auto">Innovation through AI</p>
               </div>
-              <p className="mt-0 mb-5">Partially, but it also obeys your commands. Hey, Luke! May the Force be with you. I have traced the Rebel spies to her. Now she is my only link to finding their secret base.</p>
+              <p className="mt-0 mb-5">At Buffet AI, we're committed to democratizing artificial intelligence and making advanced tools accessible to everyone. Our mission is to empower individuals and businesses with technology that simplifies complex tasks and unlocks new possibilities.</p>
               
-              <figure className="m-[0_0_20px]">
+             
+
+              <p className="mt-0 mb-5">Founded by a team of AI enthusiasts and industry experts, we combine technical expertise with a deep understanding of real-world business challenges. Our approach focuses on creating practical solutions that deliver tangible results, whether you're looking to automate routine tasks or gain deeper insights from your data.</p>
+
+              <p className="mt-0 mb-5">Join our growing community of forward-thinking professionals who are leveraging AI to transform their work and achieve more than they thought possible. With Buffet AI, the future of work is here today.</p>
+            </div>
+
+            {/* Column 3 Blog Section*/}
+            <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f]">
+              <div className="text-center">
+                <Link href='/blog'>
+                <h2 className="font-playfair font-bold text-[30px] uppercase p-[10px_0] block mx-auto">Catch Up With Our Blog!</h2>
+                </Link>
+                <p className="font-playfair font-normal italic text-[24px] p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[13px] after:block after:mx-auto">Latest insights and updates</p>
+              </div>
+              <p className="mt-0 mb-5">Stay informed with our latest articles covering AI trends, product updates, and practical tips for maximizing the potential of our tools. Our blog is a valuable resource for anyone interested in the evolving landscape of artificial intelligence.</p>
+              <figure className="m-[0_0_20px] border-2 border-[#2f2f2f] p-4">
+                <div className="text-center mb-2">
+                  <h3 className="font-playfair font-bold text-xl uppercase mb-1">SPECIAL OFFER</h3>
+                  <p className="font-serif italic text-sm mb-3">Limited Time Only</p>
+                </div>
                 <div className="relative w-full h-[150px]">
                   <Image 
                     src="/thinker.png" 
-                    alt="This time, let go your conscious self and act on instinct."
+                    alt="Personal Newsletter Curation"
                     layout="fill"
                     objectFit="cover"
                     className="sepia-[80%] contrast-100 opacity-80 mix-blend-multiply"
                   />
                 </div>
-                <figcaption className="italic text-xs">"This time, let go your conscious self and act on instinct."</figcaption>
+                <div className="text-center mt-3">
+                  <h4 className="font-playfair font-bold text-lg">PERSONAL NEWSLETTER CURATION</h4>
+                  <p className="font-serif text-xs mt-1 mb-2">Tailored information delivered to your inbox daily</p>
+                  <p className="font-serif text-sm font-bold mt-3">Subscribe Today: $9.99/month</p>
+                  <Link href="/pricing" className="inline-block mt-2 border border-[#2f2f2f] px-4 py-1 text-xs font-bold hover:bg-[#2f2f2f] hover:text-[#f9f7f1] transition-colors">
+                    SUBSCRIBE NOW
+                  </Link>
+                </div>
               </figure>
               
-              <p className="mt-0 mb-5">Leave that to me. Send a distress signal, and inform the Senate that all on board were killed. 
+              <p className="mt-0 mb-5">Our team of experts regularly publishes in-depth analyses and case studies that showcase the real-world impact of AI technologies. 
                 <span className="font-playfair text-[36px] leading-[44px] text-center font-normal block my-10 mx-0 before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-4 before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-4 after:block after:mx-auto">
-                  "Don't under­estimate the Force. I suggest you try it again, Luke."
+                  "AI is not just about automation, but augmentation of human potential."
                 </span> 
-                This time, let go your conscious self and act on instinct. In my experience, there is no such thing as luck. You're all clear, kid. Let's blow this thing and go home!
+                Whether you're a beginner looking to understand the basics or an experienced professional seeking advanced insights, our blog provides valuable content tailored to different knowledge levels and interests.
               </p>
               
-              <p className="mt-0 mb-5">You don't believe in the Force, do you? Partially, but it also obeys your commands. The plans you refer to will soon be back in our hands. As you wish.</p>
+              <p className="mt-0 mb-5">Subscribe to our newsletter to receive the latest articles directly in your inbox and join the conversation by sharing your thoughts and experiences in the comments section of each post.</p>
             </div>
 
-            {/* Column 4 */}
-            <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f]">
+                        {/* Column 4 Pricing */}
+                        <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700 border-r border-[#2f2f2f]">
               <div className="text-center">
-                <h2 className="font-playfair font-normal italic text-[36px] p-[10px_0] block mx-auto">The buzz of the little world</h2>
-                <p className="font-playfair font-bold text-xs p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[10px] after:block after:mx-auto">A thousand unknown plants</p>
+                <Link href='/pricing'>
+                <h2 className="font-playfair font-normal italic text-[36px] p-[10px_0] block mx-auto">Pricing of Services</h2>
+                </Link>
+                <p className="font-playfair font-bold text-xs p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[10px] after:block after:mx-auto">Flexible plans for every need</p>
               </div>
-              <p className="mt-0 mb-5">I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath</p>
+              
+              <h3 className="font-playfair font-bold text-base uppercase mt-4 mb-2 border-b border-[#2f2f2f] pb-1">OUR TOOLS</h3>
+              <ul className="list-disc pl-5 mb-5">
+                <li className="mb-2">Newsletter Curation — AI-powered content selection tailored to your interests</li>
+                <li className="mb-2">Letter Generator — Create professional correspondence with a few clicks</li>
+                <li className="mb-2">Image Generation — Convert text descriptions into stunning visuals</li>
+                <li className="mb-2">Search Summarizer — Extract key insights from multiple sources instantly</li>
+                <li className="mb-2">Document Analysis — Uncover patterns and insights from your documents</li>
+              </ul>
+              
+              <h3 className="font-playfair font-bold text-base uppercase mt-4 mb-2 border-b border-[#2f2f2f] pb-1">PRICING MODELS</h3>
+              <ul className="list-disc pl-5">
+                <li className="mb-2">
+                  <span className="font-bold">Free Tier</span> — Basic access to all tools with limited usage
+                </li>
+                <li className="mb-2">
+                  <span className="font-bold">Standard ($9.99/month)</span> — Increased limits, priority processing
+                </li>
+                <li className="mb-2">
+                  <span className="font-bold">Pro ($24.99/month)</span> — Unlimited usage, premium features, API access
+                </li>
+                <li className="mb-2">
+                  <span className="font-bold">Enterprise</span> — Custom solutions, dedicated support, volume discounts
+                </li>
+              </ul>
+              
+              <div className="text-center mt-4">
+                <Link href="/pricing" className="inline-block border-2 border-double border-[#2f2f2f] px-4 py-2 text-xs font-bold hover:bg-[#2f2f2f] hover:text-[#f9f7f1] transition-colors">
+                  VIEW FULL PRICING DETAILS
+                </Link>
+              </div>
             </div>
 
-            {/* Column 5 */}
+            {/* Column 5 Followers */}
             <div className="w-full md:w-[47%] lg:w-[31%] xl:w-[17.5%] text-sm leading-5 inline-block p-[0_1%] align-top mb-[50px] transition-all duration-700">
               <div className="text-center">
-                <h2 className="font-playfair font-bold text-[30px] uppercase p-[10px_0] block mx-auto">It wasn't a dream</h2>
-                <p className="font-playfair font-bold text-xs p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[10px] after:block after:mx-auto">by FRANZ KAFKA</p>
+                <Link href='/follow'>
+                    <h2 className="font-playfair font-bold text-[30px] uppercase p-[10px_0] block mx-auto">Join Our Community!</h2>
+                </Link>
+                <p className="font-playfair font-bold text-xs p-[10px_0] before:border-t before:border-[#2f2f2f] before:content-[''] before:w-[100px] before:h-[7px] before:block before:mx-auto after:border-b after:border-[#2f2f2f] after:content-[''] after:w-[100px] after:h-[10px] after:block after:mx-auto">CONNECT AND COLLABORATE</p>
               </div>
-              <p className="mt-0 mb-5">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment.</p>
-              
-              <p className="mt-0 mb-5">His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather.</p>
+              <p className="mt-0 mb-5">Become part of our growing community of AI enthusiasts, developers, and business professionals. Share ideas, get support, and collaborate on projects with like-minded individuals who are passionate about leveraging technology to solve real-world problems.</p>
+              <figure className="m-[0_0_20px] border-2 border-[#2f2f2f] p-4">
+                <div className="text-center mb-2">
+                  <h3 className="font-playfair font-bold text-xl uppercase mb-1">SPECIAL OFFER</h3>
+                  <p className="font-serif italic text-sm mb-3">Limited Time Only</p>
+                </div>
+                <div className="relative w-full h-[150px]">
+                  <Image 
+                    src="/thinker.png" 
+                    alt="Personal Newsletter Curation"
+                    layout="fill"
+                    objectFit="cover"
+                    className="sepia-[80%] contrast-100 opacity-80 mix-blend-multiply"
+                  />
+                </div>
+                <div className="text-center mt-3">
+                  <h4 className="font-playfair font-bold text-lg">Image Generation</h4>
+                  <p className="font-serif text-xs mt-1 mb-2">Generate AI conscripted images in an instance</p>
+                  <p className="font-serif text-sm font-bold mt-3">Subscribe Today: $9.99/month</p>
+                  <Link href="/pricing" className="inline-block mt-2 border border-[#2f2f2f] px-4 py-1 text-xs font-bold hover:bg-[#2f2f2f] hover:text-[#f9f7f1] transition-colors">
+                    SUBSCRIBE NOW
+                  </Link>
+                </div>
+              </figure>
+              <p className="mt-0 mb-5">Follow us on social media for the latest updates, join our forums to participate in discussions, and attend our regular webinars and virtual events to deepen your understanding of AI applications. Our community is a vibrant ecosystem where knowledge sharing and mutual support drive innovation and growth for everyone involved.</p>
             </div>
           </div>
         </div>
