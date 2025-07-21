@@ -77,6 +77,9 @@ export default function Header() {
               <Link href="/blog" className="text-[#5e503f] hover:text-[#403d39]">
                 Blog
               </Link>
+              <Link href="/good-follow" className="text-[#5e503f] hover:text-[#403d39]">
+                Follow
+              </Link>
             </nav>
           </div>
           

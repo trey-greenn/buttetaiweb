@@ -48,7 +48,7 @@ Month 2: Advanced Strategies & AI Integration
 "Leveraging Reader Feedback Metrics for Continuous Improvement"
 "Attention Metrics: Measuring How Long Readers Engage with Your Content"
 "Conversion Path Analysis: How Newsletter Readers Become Customers"
-"Sentiment Analysis: Measuring Emotional Response to Your Newsletter Content"
+"Sentiment Analysis: Measuring Emotional Response in Your Business"
 "The Long-Term Value of Newsletter Subscribers vs. Social Media Followers"
 "Adapting BuffettAI's Content Strategy Based on Performance Metrics"
 "Building Reader Personas Through Engagement Data"
