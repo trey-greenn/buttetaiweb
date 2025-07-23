@@ -1,7 +1,7 @@
 import { createServerClient } from './supabase';
 
 // Get user subscription plan
-export async function getUserPlan(userId: string): Promise<'free' | 'pro'> {
+export async function getUserPlan(userId: string): Promise<'free' | 'pro' | 'plus'> {
   const supabase = createServerClient();
   
   const { data, error } = await supabase
@@ -14,7 +14,7 @@ export async function getUserPlan(userId: string): Promise<'free' | 'pro'> {
     return 'free';
   }
   
-  return data.plan as 'free' | 'pro';
+  return data.plan as 'free' | 'pro' | 'plus';
 }
 
 // Get full subscription details

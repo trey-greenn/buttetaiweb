@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://buffetai.co/agent</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/good-follow</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/letter-post</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/about</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/login</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/letter</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/dashboard</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/pricing</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/image-generation</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/signup</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/paperview</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/5-essential-kpis</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/edtech-meets-ai</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/sentiment-analysis-measuring-emotional-response-in-your-business</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/about</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/letter-post</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/agent</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/good-follow</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/dashboard</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/login</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/letter</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/pricing</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/paperview</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/signup</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/image-generation</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/5-essential-kpis</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/edtech-meets-ai</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/revenue-per-employee-when-to-hire
+</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/sentiment-analysis-measuring-emotional-response-in-your-business</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 <url><loc>https://buffetai.co/blog/the-economics-of-attention-why-aI-filtered-content-wins
-</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/the-unsubscribe-rate-paradox-why-some-churn-is-actually-healthy</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/understanding-newsletter-open-rates</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/warren-buffet-reading-habbits</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/warren-buffett -portfolio</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://buffetai.co/blog/what-early-metrics-tell-you-about-long-term-success</loc><lastmod>2025-07-21T22:24:03.520Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/the-unsubscribe-rate-paradox-why-some-churn-is-actually-healthy</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/understanding-newsletter-open-rates</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/warren-buffet-reading-habbits</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/warren-buffett -portfolio</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://buffetai.co/blog/what-early-metrics-tell-you-about-long-term-success</loc><lastmod>2025-07-23T01:00:34.539Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

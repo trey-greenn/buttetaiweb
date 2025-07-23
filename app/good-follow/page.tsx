@@ -1,7 +1,37 @@
+'use client'
+
 import Image from 'next/image'
 import React from 'react'
+import Papa from 'papaparse';
+
+interface RealtorData {
+  Name: string;
+  Title: string;
+}
 
 const page = () => {
+  const csvFilePath = '/follows.csv';
+  const [parsedData, setParsedData] = React.useState<RealtorData[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch(csvFilePath)
+      .then(response => response.text())
+      .then(csvText => {
+        const data = Papa.parse<RealtorData>(csvText, { header: true }).data as RealtorData[];
+        setParsedData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching CSV:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading || parsedData.length === 0) {
+    return <div>Loading properties...</div>;
+  }
+
   // Property data array with 16 items
   const properties = Array(16).fill(null).map((_, index) => ({
     id: index + 1,
@@ -13,15 +43,26 @@ const page = () => {
     bedrooms: (index % 3) + 2,
     bathrooms: (index % 2) + 1,
     realtor: {
-      name: index % 2 === 0 ? "Tiffany Heffner" : "John Smith",
-      phone: "(555) 555-4321",
-      avatar: "/thinker.png"
+      name: parsedData[index % parsedData.length].Name,
+      phone: parsedData[index % parsedData.length].Title,
+      avatar: '/thinker.png'
     }
   }));
 
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Available Properties</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Great American Minds</h1>
+      <div className="flex flex-wrap justify-center gap-3 mb-6">
+      {['Engineer', 'Businessman', 'Innovator', 'Scientist', 'Twitter', 'Newsletter', 'Blog'].map((filter) => (
+        <button
+          key={filter}
+          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-800 font-medium transition-colors"
+        >
+          {filter}
+        </button>
+      ))}
+    </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
         {properties.map((property) => (
           <div key={property.id} className="bg-white shadow-xl rounded-lg overflow-hidden">

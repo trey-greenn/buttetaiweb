@@ -5,7 +5,7 @@ import { useAuth } from '@/app/lib/auth-context';
 import { createBrowserClient } from '@/app/utils/supabase-client';
 
 // Define subscription types
-export type SubscriptionPlan = 'free' | 'pro';
+export type SubscriptionPlan = 'free' | 'pro' | 'plus';
 export type SubscriptionStatus = 'active' | 'canceled' | 'past_due' | 'incomplete';
 
 export interface Subscription {
@@ -34,8 +34,10 @@ export function useSubscription() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // Check if user has active pro plan
+  // Check if user has active pro/plus plan
   const isPro = subscription?.plan === 'pro' && subscription?.status === 'active';
+  const isPlus = subscription?.plan === 'plus' && subscription?.status === 'active';
+  const isPaid = isPro || isPlus;
   
   // Force refresh of subscription data
   const refresh = useCallback(async () => {
@@ -103,6 +105,8 @@ export function useSubscription() {
     subscription,
     isLoading,
     isPro,
+    isPlus,
+    isPaid,
     refresh
   };
 }

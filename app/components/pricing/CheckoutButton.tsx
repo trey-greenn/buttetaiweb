@@ -8,12 +8,13 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 
 interface CheckoutButtonProps {
   label: string;
+  plan?: 'pro' | 'plus';
 }
 
-export default function CheckoutButton({ label }: CheckoutButtonProps) {
+export default function CheckoutButton({ label, plan = 'pro' }: CheckoutButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleProCheckout = async () => {
+  const handleCheckout = async () => {
     setIsLoading(true);
     
     try {
@@ -28,6 +29,7 @@ export default function CheckoutButton({ label }: CheckoutButtonProps) {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ plan }),
       });
     
       if (!response.ok) {
@@ -52,7 +54,7 @@ export default function CheckoutButton({ label }: CheckoutButtonProps) {
 
   return (
     <button
-      onClick={handleProCheckout}
+      onClick={handleCheckout}
       disabled={isLoading}
       className="block w-full py-3 px-4 rounded-md text-center font-medium bg-[#5e503f] text-white hover:bg-[#403d39] transition disabled:opacity-70 disabled:cursor-not-allowed"
     >

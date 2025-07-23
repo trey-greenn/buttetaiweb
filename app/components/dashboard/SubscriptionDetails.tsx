@@ -27,6 +27,9 @@ export default function SubscriptionDetails() {
   }
   
   const isPro = subscription.plan === 'pro' && subscription.status === 'active';
+  const isPlus = subscription.plan === 'plus' && subscription.status === 'active';
+  const isPaid = (isPro || isPlus) && subscription.status === 'active';
+  
   const renewalDate = subscription.current_period_end 
     ? format(new Date(subscription.current_period_end), 'MMMM d, yyyy')
     : 'N/A';
@@ -38,8 +41,9 @@ export default function SubscriptionDetails() {
       <div className="mb-6">
         <div className="flex items-center mb-2">
           <span className="font-medium text-gray-700 mr-2">Plan:</span>
-          <span className={`${isPro ? 'text-green-600 font-medium' : 'text-gray-600'}`}>
-            {subscription.plan === 'pro' ? 'Pro Plan' : 'Free Plan'}
+          <span className={`${isPaid ? 'text-green-600 font-medium' : 'text-gray-600'}`}>
+            {subscription.plan === 'pro' ? 'Pro Plan' : 
+             subscription.plan === 'plus' ? 'Plus Plan' : 'Free Plan'}
           </span>
         </div>
         
@@ -53,7 +57,7 @@ export default function SubscriptionDetails() {
           </span>
         </div>
         
-        {isPro && (
+        {isPaid && (
           <div className="flex items-center">
             <span className="font-medium text-gray-700 mr-2">Renews on:</span>
             <span className="text-gray-600">{renewalDate}</span>
@@ -62,12 +66,12 @@ export default function SubscriptionDetails() {
       </div>
       
       <div className="flex gap-3">
-        {!isPro && (
+        {!isPaid && (
           <Link 
             href="/pricing" 
             className="bg-[#5e503f] hover:bg-[#403d39] text-white px-4 py-2 rounded-md transition-colors"
           >
-            Upgrade to Pro
+            Upgrade Plan
           </Link>
         )}
         

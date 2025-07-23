@@ -4,8 +4,32 @@ import { createServerClient } from '@/app/utils/supabase';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
+const PLAN_PRICES = {
+  pro: {
+    priceId: process.env.STRIPE_PRICE_ID_PRO,
+    name: 'BuffettAI Pro Subscription',
+    description: 'Annual subscription to BuffettAI Pro plan',
+    unit_amount: 899, // $8.99 in cents
+  },
+  plus: {
+    priceId: process.env.STRIPE_PRICE_ID_PLUS, 
+    name: 'BuffettAI Plus Subscription',
+    description: 'Annual subscription to BuffettAI Plus plan',
+    unit_amount: 1899, // $18.99 in cents
+  }
+};
+
 export async function POST(request: NextRequest) {
   try {
+    // Get plan from request body
+    const { plan = 'pro' } = await request.json();
+    
+    if (!['pro', 'plus'].includes(plan)) {
+      return NextResponse.json({ error: 'Invalid plan selected' }, { status: 400 });
+    }
+    
+    const planDetails = PLAN_PRICES[plan as keyof typeof PLAN_PRICES];
+    
     // Get the origin for success/cancel URLs
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
     
@@ -45,31 +69,37 @@ export async function POST(request: NextRequest) {
         status: 'active',
       });
     }
+
+    // Use predefined price ID if available, otherwise use price_data
+    const lineItems = planDetails.priceId 
+  ? [{ price: planDetails.priceId, quantity: 1 }]
+  : [{
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: planDetails.name,
+          description: planDetails.description,
+        },
+        unit_amount: planDetails.unit_amount,
+        recurring: {
+          interval: 'year' as Stripe.Checkout.SessionCreateParams.LineItem.PriceData.Recurring.Interval,
+        },
+      },
+      quantity: 1,
+    }];
     
     // Create the checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: 'BuffettAI Pro Subscription',
-              description: 'Annual subscription to BuffettAI Pro plan',
-            },
-            unit_amount: 899, // $8.99 in cents
-            recurring: {
-              interval: 'year',
-            },
-          },
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: 'subscription',
       success_url: `${origin}/dashboard?upgrade=success`,
       cancel_url: `${origin}/pricing`,
-      metadata: { user_id: userId },
+      metadata: { 
+        user_id: userId,
+        plan: plan 
+      },
     });
 
     // Return the session ID
