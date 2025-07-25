@@ -117,9 +117,17 @@ export async function GET(request: NextRequest) {
             const articlesContent = `Title: ${title}\nSnippet: ${snippet}\nURL: ${url}\n`;
             
             // Use the user's custom prompt if available, otherwise use a default one
-            const systemPrompt = settings.prompt 
-              ? `You are writing a newsletter section based on the user's preferences. Their custom prompt is: ${settings.prompt}`
-              : 'You are a helpful assistant that summarizes web content for a newsletter.';
+            // const systemPrompt = settings.prompt 
+            //   ? `You are writing a newsletter section based on the user's preferences. Their custom prompt is: ${settings.prompt}`
+            //   : 'You are a helpful assistant that summarizes web content for a newsletter.';
+
+              const systemPrompt = `
+              You are writing a newsletter section based on the user's preferences. 
+              Write 5 concise, but information-packed bullet points for each section based on the newsletter's subjects and niche interests. 
+              Each bullet point should be between 3–6 sentences. 
+              All technical jargon should be thoroughly explained in simple terms — as if you're teaching a 3rd grader. 
+              Use clear structure and avoid fluff. Prioritize value, clarity, and accuracy.
+              `.trim();
             
             const openaiResponse = await openai.chat.completions.create({
               model: 'gpt-4-turbo',
@@ -128,9 +136,17 @@ export async function GET(request: NextRequest) {
                   role: 'system', 
                   content: systemPrompt
                 },
-                { 
-                  role: 'user', 
-                  content: `Summarize the following article about "${topic}":\n\n${articlesContent}`
+                {
+                  role: 'user',
+                  content: `You are a professional blog writer. Please provide a concise, informative, and well-structured summary of the following article about "${topic}". 
+                
+                Your summary should include:
+                1. A brief introduction to the topic.
+                2. Key points and insights from the article (use bullet points if helpful).
+                3. Any notable quotes, data, or perspectives mentioned.
+                4. A short conclusion or takeaway.
+                
+                Here is the article:\n\n${articlesContent}`
                 }
               ],
               temperature: 0.7,
